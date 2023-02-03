@@ -26,3 +26,17 @@ volumeOfCylinder r h = areaOfCircle r * h
 distance :: Float -> Float -> Float -> Float -> Float
 distance x1 y1 x2 y2 = sqrt ((y1 - y2) ^ 2 + (x1 - x2) ^ 2)
 --6
+threeDifferent :: Int -> Int -> Int -> Bool
+threeDifferent x y z = x /= y && x /= z && y /= z
+--7
+divisibleBy :: Int -> Int -> Bool
+divisibleBy x y = x `mod` y == 0
+--8
+isEven :: Int -> Bool
+isEven x = x `divisibleBy` 2
+--9
+averageThree :: Int -> Int -> Int -> Float
+averageThree x y z = fromIntegral (x + y + z) / 3
+--10
+absolute :: Int -> Int
+absolute x = if x < 0 then -x else x
