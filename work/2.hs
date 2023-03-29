@@ -39,12 +39,43 @@ howManyEqual a b c
 
 --4
 
-x :: Float -> Float -> Float -> Float
-x a b c = diagLength a + diagLength b + diagLength c
+sumDiagonalLengths :: Float -> Float -> Float -> Float
+sumDiagonalLengths a b c = diagLength a + diagLength b + diagLength c
   where
     diagLength x = sqrt (x ^ 2 + x ^ 2)
 
+--5
+
+taxiFare :: Double -> Double
+taxiFare distance
+  | distance <= 10 = 2.20 + 0.50 * distance
+  | otherwise       = 2.20 + 0.50 * 10 + 0.30 * (distance - 10)
+
+--6
+
+howManyAboveAverage :: Int -> Int -> Int -> Int
+howManyAboveAverage a b c
+  | a > average && b > average = 2
+  | a > average && c > average = 2
+  | b > average && c > average = 2
+  | a > average = 1
+  | b > average = 1
+  | c > average = 1
+  | otherwise = 0
+  where
+    average =  (a + b + c) `div` 3
+
+--7
+
+validDate :: Int -> Int -> Bool
+
+
+{-
+
+-}
 
 
 
-sumDiagonalLengths :: Float -> Float -> Float -> Float
+
+
+
