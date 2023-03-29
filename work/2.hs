@@ -15,5 +15,36 @@ pizzaCalories diameter toppings
   | otherwise = 11.5 * pi * (fromIntegral diameter / 2) ^ 2
 
 --1
+
 absolute :: Int -> Int
-absolute x = if x < 0 then -x else x
+absolute x
+  | x < 0 = -x
+  | otherwise = x
+
+--2
+
+sign :: Int -> Int
+sign x
+  | x < 0 = -1
+  | x > 0 = 1
+  | otherwise = 0
+
+--3
+
+howManyEqual :: Int -> Int -> Int -> Int
+howManyEqual a b c
+  | a == b && b == c = 3
+  | a == b || b == c || a == c = 2
+  | otherwise = 0
+
+--4
+
+x :: Float -> Float -> Float -> Float
+x a b c = diagLength a + diagLength b + diagLength c
+  where
+    diagLength x = sqrt (x ^ 2 + x ^ 2)
+
+
+
+
+sumDiagonalLengths :: Float -> Float -> Float -> Float
