@@ -68,9 +68,30 @@ howManyAboveAverage a b c
 --7
 
 validDate :: Int -> Int -> Bool
+validDate day month
+  | month < 1 || month > 12 = False
+  | month `elem` [1, 3, 5, 7, 8, 10, 12] = day >= 1 && day <= 31
+  | month `elem` [4, 6, 9, 11] = day >= 1 && day <= 30
+  | month == 2 = day >= 1 && day <= 28
+  | otherwise = False
+
+--8
+
+daysInMonth :: Int -> Int -> Int
+daysInMonth month year
+  | month < 1 || month > 12 = 0
+  | month `elem` thirtyone = 31
+  | month `elem` thirty = 30
+  | month == 2 && year `divisibleBy` 4 = 29
+  | otherwise = 28
+  where
+    thirtyone = [1, 3, 5, 7, 8, 10, 12]
+    thirty = [4, 6, 9, 11]
+    divisibleBy x y = x `mod` y == 0
 
 
 {-
+
 
 -}
 
