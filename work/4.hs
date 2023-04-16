@@ -51,4 +51,55 @@ averageMark stmks = fromIntegral sumMarks / fromIntegral numberOfStudents
     numberOfStudents = length stmks
 
 
+--1
 
+sumDifference :: Int -> Int -> (Int, Int)
+sumDifference x y = (x+y,x-y)
+
+--2
+
+grade :: StudentMark -> Char
+grade (st, mk)
+  | mk >= 70 = 'A'
+  | mk >= 60 = 'B'
+  | mk >= 50 = 'C'
+  | mk >= 40 = 'D'
+  | otherwise = 'F'
+
+--3
+
+capMark :: StudentMark -> StudentMark
+capMark (st, mk)
+  | mk > 40 = (st, 40)
+  | otherwise = (st, mk)
+
+--4
+
+firstNumbers :: Int -> [Int]
+firstNumbers n = [1..n]
+
+--5
+
+firstSquares :: Int -> [Int]
+firstSquares n = [x ^ 2 | x <- firstNumbers n]
+
+--6
+
+capitalise :: String -> String
+capitalise input = [toUpper i | i <- input]
+
+--7
+
+onlyDigits :: String -> String
+onlyDigits input = [toUpper i | i <- input, isDigit i]
+  where isDigit ch = ch `elem` ['0'..'9']
+
+--8
+
+capMarks :: [StudentMark] -> [StudentMark]
+capMarks inputList = [capMark i | i <- inputList]
+
+--9
+
+gradeStudents :: [StudentMark] -> [(String, Char)]
+gradeStudents inputList = [grade mark | mark <- inputList]
