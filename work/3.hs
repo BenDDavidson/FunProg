@@ -120,5 +120,12 @@ sumSquares n
 --7
 
 power :: Int -> Int -> Int
-power n m
-  |
+power _ 0 = 1
+power x n = x * power x (n-1)
+
+--8
+
+sumFromTo :: Int -> Int -> Int
+sumFromTo m n
+  | m == n = m
+  | otherwise = sumFromTo m (n-1) + n
