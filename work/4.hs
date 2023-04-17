@@ -105,3 +105,4 @@ gradeStudents :: [StudentMark] -> [(String, Char)]
 gradeStudents inputList = [grade mark | mark <- marksList]
   where marksList = marks inputList
 
+--todo figure above out :)
