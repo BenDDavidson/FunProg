@@ -102,4 +102,6 @@ capMarks inputList = [capMark i | i <- inputList]
 --9
 
 gradeStudents :: [StudentMark] -> [(String, Char)]
-gradeStudents inputList = [grade mark | mark <- inputList]
+gradeStudents inputList = [grade mark | mark <- marksList]
+  where marksList = marks inputList
+
