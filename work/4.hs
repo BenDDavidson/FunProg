@@ -101,8 +101,29 @@ capMarks inputList = [capMark i | i <- inputList]
 
 --9
 
-gradeStudents :: [StudentMark] -> [(String, Char)]
-gradeStudents inputList = [grade mark | mark <- marksList]
-  where marksList = marks inputList
+gradeWithString :: StudentMark -> (String, Char)
+gradeWithString (st, mk)
+  | mk >= 70 = (st,'A')
+  | mk >= 60 = (st,'B')
+  | mk >= 50 = (st,'C')
+  | mk >= 40 = (st,'D')
+  | otherwise = (st,'F')
 
---todo figure above out :)
+
+gradeStudents :: [StudentMark] -> [(String, Char)]
+gradeStudents inputList = [gradeWithString mark | mark <- inputList ]
+
+--10
+
+duplicate :: String -> Int -> String
+duplicate inputasd times
+  | times == 1 = inputasd
+  | otherwise = inputasd ++ duplicate inputasd timesDecre
+  where timesDecre = times - 1
+
+duplicateLis :: String -> Int -> String
+duplicateLis str times = 
+
+--sumEvenNumbersBetween :: Int -> Int -> Int
+--sumEvenNumbersBetween x y = sum [i | i <- [x .. y], even i]
+
