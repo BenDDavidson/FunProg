@@ -115,14 +115,17 @@ gradeStudents inputList = [gradeWithString mark | mark <- inputList ]
 
 --10
 
-duplicate :: String -> Int -> String
-duplicate inputasd times
-  | times == 1 = inputasd
-  | otherwise = inputasd ++ duplicate inputasd timesDecre
-  where timesDecre = times - 1
+--duplicate :: String -> Int -> String
+--duplicate input times
+--  | times == 1 = input
+--  | otherwise = input ++ duplicate input timesDecre
+--  where timesDecre = times - 1
 
-duplicateLis :: String -> Int -> String
-duplicateLis str times = 
+duplicate :: Int -> String -> String
+duplicate n s = concat $ replicate n s
+
+--duplicateLis :: String -> Int -> String
+--duplicateLis str times =
 
 --sumEvenNumbersBetween :: Int -> Int -> Int
 --sumEvenNumbersBetween x y = sum [i | i <- [x .. y], even i]
