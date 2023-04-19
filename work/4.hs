@@ -37,6 +37,9 @@ minAndMax x y
 sumEvenNumbersBetween :: Int -> Int -> Int
 sumEvenNumbersBetween x y = sum [i | i <- [x .. y], even i]
 
+sumNumbersBetween :: Int -> Int -> Int
+sumNumbersBetween x y = sum [x .. y]
+
 
 --sumEvenNumbersBetween x y
 --  | x > y = 0
