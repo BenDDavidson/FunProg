@@ -65,3 +65,13 @@ countSpaces :: String -> Int
 --  | x == ' ' = 1 + countSpaces xs
 --  | otherwise = countSpaces xs
 countSpaces str = sum [1 | x <- str, x == ' ']
+
+mergeLists :: [Int] -> [Int] -> [Int]
+mergeLists [] [] = []
+mergeLists [] ys = ys
+mergeLists xs [] = xs
+mergeLists (x : xs) (y : ys)
+  | x <= y = x : mergeLists xs (y : ys)
+  | otherwise = y : mergeLists (x : xs) ys
+
+--todo figure out above
