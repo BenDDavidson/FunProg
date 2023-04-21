@@ -74,4 +74,11 @@ mergeLists (x : xs) (y : ys)
   | x <= y = x : mergeLists xs (y : ys)
   | otherwise = y : mergeLists (x : xs) ys
 
---todo figure out above
+--skipped above
+
+--1
+
+headPlusOne :: [Int] -> Int
+headPlusOne [] = -1
+headPlusOne (x : xs) = x + 1
+
