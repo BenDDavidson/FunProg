@@ -82,3 +82,34 @@ headPlusOne :: [Int] -> Int
 headPlusOne [] = -1
 headPlusOne (x : xs) = x + 1
 
+removeSecond :: [a] -> [a]
+removeSecond [] = []
+removeSecond [x] = [x]
+removeSecond (x : y : xs) = x : xs
+
+--2
+
+duplicateHead :: [a] -> [a]
+duplicateHead [] = []
+duplicateHead (x : xs) = x : x : xs
+
+--3
+
+rotate :: [a] -> [a]
+rotate [] = []
+rotate [x] = [x]
+rotate (x : y : xs) = y : x : xs
+
+--4
+
+listLength :: [a] -> Int
+listLength [] = 0
+listLength (x : xs) = 1 + listLength xs
+
+--5
+
+multAll :: [Int] -> Int
+multAll [] = 1
+multAll (x : xs) = x * multAll xs
+
+--6
