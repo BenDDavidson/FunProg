@@ -32,3 +32,18 @@ myConcat :: [[a]] -> [a]
 myConcat = foldr (++) []
 
 alwaysEven :: (Int -> Int) -> [Int] -> Bool
+alwaysEven f xs = length (filter even (map f xs)) == length xs
+
+--alwaysEven (+3) [7, 7, 9, 11]
+
+updatePositivesOnly :: (Float -> Float) -> [Float] -> [Float]
+updatePositivesOnly _ [] = []
+updatePositivesOnly function (x : xs)
+  | x > 0 = function x : updatePositivesOnly function xs
+  | otherwise = x : updatePositivesOnly function xs
+
+
+--1
+
+mult10 :: [Int] -> [Int]
+mult10 list = map (*10) list

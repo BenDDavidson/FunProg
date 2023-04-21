@@ -53,3 +53,18 @@ height (Node _ st1 st2) = 1 + max (height st1) (height st2)
 sumValues :: Tree -> Int
 sumValues Null = 0
 sumValues (Node n st1 st2) = n + sumValues st1 + sumValues st2
+
+type Make = String
+type Model = String
+type HorsePower = Int
+type Price = Float
+
+data EngineType = Petrol | Diesel | Electric
+  deriving (Show, Eq)
+
+data Engine = Engine EngineType HorsePower
+  deriving (Show)
+
+data CarName = CName Make Model
+deriving (Show)
+
