@@ -32,17 +32,6 @@ testData =
   ]
 
 
-testData :: [StudentMark]
-testData =
-  [ ("John", 53),
-    ("Sam", 16),
-    ("Kate", 85),
-    ("Jill", 65),
-    ("Bill", 37),
-    ("Amy", 22),
-    ("Jack", 41),
-    ("Sue", 71)
-  ]
 --
 --  Your functional code goes here
 --

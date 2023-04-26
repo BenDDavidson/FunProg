@@ -66,5 +66,36 @@ data Engine = Engine EngineType HorsePower
   deriving (Show)
 
 data CarName = CName Make Model
-deriving (Show)
+  deriving (Show)
 
+data Car = Car CarName Engine Price
+  deriving (Show)
+
+testCars :: [Car]
+testCars =
+  [ Car (CName "Ford"       "Fiesta") (Engine Petrol   55) 10000.0,
+    Car (CName "Ford"       "Focus")  (Engine Diesel   85) 15000.0,
+    Car (CName "Vauxhall"   "Corsa")  (Engine Petrol   55) 8000.0,
+    Car (CName "Vauxhall"   "Astra")  (Engine Diesel   81) 12000.0,
+    Car (CName "Vauxhall"   "Astra")  (Engine Diesel   96) 14000.0,
+    Car (CName "VolksWagen" "Golf")   (Engine Electric 81) 20000.0
+  ]
+
+totalPrice :: [Car] -> Float
+totalPrice [] = 0
+totalPrice (Car _ _ price : cs) = price + totalPrice cs
+
+filterByMake :: String -> [Car] -> [Car]
+filterByMake manufacturer cs = [c | c <- cs, getMake c == manufacturer]
+  where
+    getMake (Car (CName make _) _ _) = make
+
+updatePriceAt :: Int -> Float -> [Car] -> [Car]
+updatePriceAt _ _ [] = []
+updatePriceAt 0 amount (c : cs) = updatePrice amount c : cs
+updatePriceAt index amount (c : cs) = c : updatePriceAt (index - 1) amount cs
+
+updatePrice :: Float -> Car -> Car
+updatePrice newPrice (Car name engine _) = Car name engine newPrice
+
+-- check i get above
