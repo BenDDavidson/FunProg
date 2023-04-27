@@ -1,3 +1,6 @@
+import Text.Printf
+import Data.List
+
 type Make = String
 
 type Model = String
@@ -30,3 +33,62 @@ testCars =
     Car "QR78 STU" (CName "Volkswagen" "Golf") 45630 [2020, 2021, 2022, 2023],
     Car "ST90 UVW" (CName "Volkswagen" "Passat") 36325 [2018, 2019]
   ]
+
+getNumberPlate :: Car -> NumberPlate
+getNumberPlate (Car numberPlate _ _ _) = numberPlate
+
+getCarByNumberPlate :: String -> [Car] -> Maybe Car
+getCarByNumberPlate _ [] = Nothing
+getCarByNumberPlate np (car:rest) =
+  if np == getNumberPlate car
+    then Just car
+    else getCarByNumberPlate np rest
+
+getMots :: Car -> Mots
+getMots (Car _ _ _ mots) = mots
+
+getCarsThatNeedMotForYear :: Int -> [Car] -> [Car]
+getCarsThatNeedMotForYear _ [] = []
+getCarsThatNeedMotForYear year (car:rest) =
+  if year `notElem` getMots car
+    then car : getCarsThatNeedMotForYear year rest
+    else getCarsThatNeedMotForYear year rest
+
+formatCar :: Car -> String
+formatCar (Car numberPlate (CName make model) mileage mots) =
+  printf "%-10s %-10s %-15s %-10d %-5d"
+  make model numberPlate mileage (last mots)
+
+formatCars :: [Car] -> String
+formatCars [] = ""
+formatCars (car:rest) = formatCar car ++ "\n" ++ formatCars rest
+
+main1 :: IO ()
+main1 = do
+  putStrLn "Select one of the following options:"
+  putStrLn "1. Get car by number plate"
+  putStrLn "2. Get cars that need MOT for a given year"
+  putStrLn "Press any other key to exit"
+  option <- getLine
+  case option of
+    "1" -> do
+      putStrLn "Enter a number plate:"
+      numberPlate <- getLine
+      let car = getCarByNumberPlate numberPlate testCars
+      case car of
+        Nothing -> putStrLn "No car found"
+        Just car -> putStrLn (formatCar car)
+      main1
+    "2" -> do
+      putStrLn "Enter a year to check:"
+      year <- getLine
+      let cars = getCarsThatNeedMotForYear (read year) testCars
+      putStrLn "Make Model Number Plate mileage Last MOT"
+      putStrLn "---------------------------------------------------------"
+      putStrLn (formatCars cars)
+      main1
+    _ -> return ()
+
+
+writeFile "cars.txt" (intercalate "\n" (map show testCars))
+
