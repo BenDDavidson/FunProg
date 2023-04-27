@@ -34,6 +34,8 @@ testCars =
     Car "ST90 UVW" (CName "Volkswagen" "Passat") 36325 [2018, 2019]
   ]
 
+-- WE 1
+
 getNumberPlate :: Car -> NumberPlate
 getNumberPlate (Car numberPlate _ _ _) = numberPlate
 
@@ -89,6 +91,6 @@ main1 = do
       main1
     _ -> return ()
 
+-- WE 2
 
-writeFile "cars.txt" (intercalate "\n" (map show testCars))
 
