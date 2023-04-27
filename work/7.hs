@@ -98,4 +98,10 @@ updatePriceAt index amount (c : cs) = c : updatePriceAt (index - 1) amount cs
 updatePrice :: Float -> Car -> Car
 updatePrice newPrice (Car name engine _) = Car name engine newPrice
 
--- check i get above
+--1
+
+data Month = Jan | Feb | Mar | Apr | May | Jun | Jul | Aug | Sep | Oct | Nov | Dec
+  deriving (Eq, Ord, Show, Read, Enum)
+
+data Season = Spring | Summer | Autumn | Winter
+  deriving (Eq, Ord, Show, Read, Enum)
