@@ -132,13 +132,17 @@ citiesMeetingMin minPop cities = [city | city <- cities, (head (getPopList city)
   where
     popList = getPopList (head cities)
 
+getNorth :: City -> North
+getNorth (City _ (CityCoordinates north _) _) = north
+
+getEast :: City -> East
+getEast (City _ (CityCoordinates _ east) _) = east
+
 findClosestCity :: North -> East -> Int -> [City] -> City
 findClosestCity north east minPop cities = head (sortBy compareDistances citiesMeeting)
   where
     compareDistances city1 city2 = compare (distance city1) (distance city2)
     distance city = sqrt (fromIntegral (north - getNorth city) ^ 2 + fromIntegral (east - getEast city) ^ 2)
-    getNorth (City _ (CityCoordinates north _) _) = north
-    getEast (City _ (CityCoordinates _ east) _) = east
     citiesMeeting = citiesMeetingMin minPop cities
 
 
