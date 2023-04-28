@@ -184,6 +184,7 @@ readPopulationData line = map read (words line)
 
 lineToWordsList :: String -> [String]
 lineToWordsList line = words line
+{-
 
 readCity :: [String] -> City
 readCity (name:north:east:popList) = City name (CityCoordinates north east) readablePopList
@@ -195,6 +196,7 @@ readCities [] = []
 readCities (line:rest) = readCity splitLine : readCities rest
   where splitLine = lineToWordsList line
 
+-}
 
 
 
