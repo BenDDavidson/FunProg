@@ -56,3 +56,4 @@ addToTempsFile (city : cities) = do
   putStr ("Enter the temperature in " ++ city ++ ": ")
   temp <- getLine
   let tempInt = read temp :: Int
+

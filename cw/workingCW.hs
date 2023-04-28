@@ -38,6 +38,7 @@ testData =
   ]
 
 
+
 --
 --  Your functional code goes here
 --
@@ -83,20 +84,66 @@ formatCities (city:rest) = formatCity city ++ "\n" ++ formatCities rest
 
 --iv
 
+updatePopulation :: Double -> City -> City
+updatePopulation newPop (City cityName coords oldPopList) =
+  City cityName coords (newPop : oldPopList)
+
+addPopulationData :: [Double] -> [City] -> [City]
+addPopulationData [] cities = cities
+addPopulationData (pop:restOfpop) (city:restOfCities) =
+  updatedCity : addPopulationData restOfpop restOfCities
+  where
+    updatedCity = updatePopulation pop city
+
+--v
+
+addCity :: CityName -> North -> East -> CityPopulationList -> [City] -> [City]
+addCity name north east popList cities = City name (CityCoordinates north east) popList : cities
+
+-- USAGE testDataWithStockholm = addCity "Stockholm" 59 18 [1657, 1633, 1608, 1583] testData
 
 
+sortCitiesByName :: [City] -> [City]
+sortCitiesByName cities = sortBy compareNames cities
+  where
+    compareNames city1 city2 = compare (getCityName city1) (getCityName city2)
 
---formatCar :: Car -> String
---formatCar (Car numberPlate (CName make model) mileage mots) =
---  printf "%-10s %-10s %-15s %-10d %-5d"
---  make model numberPlate mileage (last mots)
---
---formatCars :: [Car] -> String
---formatCars [] = ""
---formatCars (car:rest) = formatCar car ++ "\n" ++ formatCars rest
+--vi
+
+popDifference :: [Double] -> [Double]
+popDifference [] = []
+popDifference (pop:[]) = []
+popDifference (pop1:pop2:rest) = (pop1 - pop2) : popDifference (pop2:rest)
+
+getPopGrowth :: CityName -> [City] -> [Double]
+getPopGrowth name cities = popDifference popList
+  where
+    city = findCityByName name cities
+    popList = getPopList city
+
+--vii
+
+citiesMeetingMin :: Int -> [City] -> [City]
+citiesMeetingMin minPop cities = [city | city <- cities, (head (getPopList city)) >= fromIntegral minPop]
+  where
+    popList = getPopList (head cities)
+
+findClosestCity :: North -> East -> Int -> [City] -> City
+findClosestCity north east minPop cities = head (sortBy compareDistances citiesMeeting)
+  where
+    compareDistances city1 city2 = compare (distance city1) (distance city2)
+    distance city = sqrt (fromIntegral (north - getNorth city) ^ 2 + fromIntegral (east - getEast city) ^ 2)
+    getNorth (City _ (CityCoordinates north _) _) = north
+    getEast (City _ (CityCoordinates _ east) _) = east
+    citiesMeeting = citiesMeetingMin minPop cities
 
 
-
+closestCityToName :: North -> East -> Int -> [City] -> String
+closestCityToName north east minPop cities = printf "The closest city to %d,%d with a population of at least %d is %s"
+  north east minPop cityName
+  where
+    closestCity = findClosestCity north east minPop cities
+    cityName = getCityName closestCity
 
 
 --
@@ -106,7 +153,11 @@ demo :: Int -> IO ()
 demo 1 = print (cityNames testData) -- output the names of all the cities
 demo 2 = print (getPopAtYearsAgo "Berlin" 1 testData) -- output the population of Berlin 1 year ago
 demo 3 = putStrLn (formatCities testData) -- output the data as a string
+demo 4 = putStrLn (formatCities (addPopulationData [1200,3200,3600,1800,9500,6800,11100,4300,2000,1800] testData))
+demo 5 = putStrLn (formatCities (sortCitiesByName (addCity "Stockholm" 59 18 [1657, 1633, 1608, 1583] testData)))
+demo 6 = print (getPopGrowth "Athens" testData)
 demo _ = print "Invalid argument"
+--todo add headings to formatter
 --todo make demos interactive, look at 9.hs
 
 --
@@ -139,6 +190,22 @@ writeAt position text = do
 --
 -- Your user interface (and loading/saving) code goes here
 --
+
+{-
+demo 1 = -- output the names of all the cities
+demo 2 = -- output the population of "Berlin" 1 year ago (i.e. last year)
+demo 3 = putStrLn (citiesToString testData)
+demo 4 = -- output the data (as for (iii)) after it has been updated with the
+         -- following new population figures (the first is for Amsterdam, etc.)
+         -- [1200,3200,3600,1800,9500,6800,11100,4300,2000,1800]
+demo 5 = -- show the data (as for (iii)) after adding "Stockholm" (59N, 18E)
+         -- with population figures [1657, 1633, 1608, 1583]
+demo 6 = -- output a list of annual growth figures for "Athens"
+demo 7 = -- output the nearest city to location (45N, 8E) with
+         -- a population above 4m people
+demo 8 = -- output the population map
+-}
+
 
 main :: IO ()
 main = do
