@@ -1,5 +1,7 @@
 import Text.Printf
 import Data.List
+import Data.Maybe (isJust)
+
 
 type Make = String
 
@@ -93,4 +95,55 @@ main1 = do
 
 -- WE 2
 
+addMOTtoCar :: String -> Int -> [Car] -> [Car]
+addMOTtoCar _ _ [] = []
+addMOTtoCar numberPlate year (Car np cn mi mots : rest) =
+    if numberPlate == np
+    then
+        if elem year mots
+        then Car numberPlate cn mi mots : rest
+        else Car numberPlate cn mi (mots ++ [year]) : rest
+    else Car numberPlate cn mi mots : addMOTtoCar np year rest
 
+getNewPlateNumber :: IO String
+getNewPlateNumber = do
+    putStrLn "Enter a number plate:"
+    numberPlate <- getLine
+    if pnExists numberPlate
+        then do
+            putStrLn "Number plate already exists"
+            getNewPlateNumber
+        else return numberPlate
+    where
+        pnExists numberPlate = isJust (getCarByNumberPlate numberPlate testCars)
+
+main2 :: IO ()
+main2 = do
+    putStrLn "Select one of the following options:"
+    putStrLn "1. Add a new MOT year to a car"
+    putStrLn "2. Add a new car"
+    putStrLn "Press any other key to exit"
+    option <- getLine
+    case option of
+        "1" -> do
+            putStrLn "Enter a number plate:"
+            numberPlate <- getLine
+            let car = getCarByNumberPlate numberPlate testCars
+            case car of
+                Nothing -> putStrLn "No car found"
+                Just car -> do
+                    putStrLn "Enter a MOT year:"
+                    motYear <- getLine
+                    let updatedCars = addMOTtoCar numberPlate (read motYear) testCars
+                    writeFile "cars.txt" (intercalate "\n" (map show updatedCars))
+            main2
+        "2" -> do
+            numberPlate <- getNewPlateNumber
+            putStrLn "Enter a make:"
+            make <- getLine
+            putStrLn "Enter a model:"
+            model <- getLine
+            let car = Car numberPlate (CName make model) 0 []
+            appendFile "cars.txt" ("\n" ++ show car)
+            main2
+        _ -> return ()

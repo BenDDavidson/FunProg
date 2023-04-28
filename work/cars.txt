@@ -1,4 +1,4 @@
-Car "AB12 CDE" (CName "Ford" "Fiesta") 71650 [2020,2021]
+Car "AB12 CDE" (CName "Ford" "Fiesta") 71650 [2020,2021,2022]
 Car "CD34 EFG" (CName "Ford" "Focus") 10354 [2017,2018,2019,2020,2021,2022]
 Car "EF56 GHI" (CName "Ford" "Mondeo") 35465 [2019,2020,2021,2022,2023]
 Car "GH78 IJK" (CName "Vauxhall" "Corsa") 94759 [2020,2021,2022]

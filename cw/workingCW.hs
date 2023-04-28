@@ -5,6 +5,7 @@
 --
 
 import Text.Printf
+import Data.List
 
 --
 -- Types (define City type here)
@@ -13,7 +14,7 @@ import Text.Printf
 type CityName = String
 type North = Int
 type East = Int
-type CityPopulationList = [Int]
+type CityPopulationList = [Double]
 
 data CityCoordinates = CityCoordinates North East
   deriving (Show)
@@ -45,21 +46,54 @@ cityNames :: [City] -> [CityName]
 cityNames [] = []
 cityNames (City name _ _ : cities) = name : cityNames cities
 
+--i
 
 getCityName :: City -> CityName
 getCityName (City cityName _ _) = cityName
 
-findCityByName :: String -> [City] -> Maybe City
-findCityByName _ [] = Nothing
+--ii
+
+findCityByName :: String -> [City] -> City
 findCityByName name (city:rest) =
   if name == getCityName city
-    then Just city
+    then city
     else findCityByName name rest
 
-
-getPopList :: City -> [Int]
+getPopList :: City -> [Double]
 getPopList (City _ _ popList) = popList
 
+getPopAtYearsAgo :: CityName -> Int -> [City] -> String
+getPopAtYearsAgo name yearsAgo cities =
+  printf "The population of %s %d years ago was %.3fm"
+    name yearsAgo (pop / 1000.0)
+  where
+    city = findCityByName name cities
+    popList = getPopList city
+    pop = popList !! yearsAgo
+
+--iii
+
+formatCity :: City -> String
+formatCity (City name (CityCoordinates north east) popList) =
+  printf "%-10s %-10d %-10d %10.3fm %10.3fm" name north east (popList !! 0 / 1000.0) (popList !! 1 / 1000.0)
+
+formatCities :: [City] -> String
+formatCities [] = ""
+formatCities (city:rest) = formatCity city ++ "\n" ++ formatCities rest
+
+--iv
+
+
+
+
+--formatCar :: Car -> String
+--formatCar (Car numberPlate (CName make model) mileage mots) =
+--  printf "%-10s %-10s %-15s %-10d %-5d"
+--  make model numberPlate mileage (last mots)
+--
+--formatCars :: [Car] -> String
+--formatCars [] = ""
+--formatCars (car:rest) = formatCar car ++ "\n" ++ formatCars rest
 
 
 
@@ -70,9 +104,10 @@ getPopList (City _ _ popList) = popList
 --
 demo :: Int -> IO ()
 demo 1 = print (cityNames testData) -- output the names of all the cities
-
+demo 2 = print (getPopAtYearsAgo "Berlin" 1 testData) -- output the population of Berlin 1 year ago
+demo 3 = putStrLn (formatCities testData) -- output the data as a string
 demo _ = print "Invalid argument"
-
+--todo make demos interactive, look at 9.hs
 
 --
 -- Screen Utilities (use these to do the population map)
