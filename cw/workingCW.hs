@@ -72,7 +72,7 @@ getPopAtYearsAgo name yearsAgo cities =
     popList = getPopList city
     pop = popList !! yearsAgo
 
---iii
+--iii printf "
 
 formatCity :: City -> String
 formatCity (City name (CityCoordinates north east) popList) =
@@ -81,6 +81,10 @@ formatCity (City name (CityCoordinates north east) popList) =
 formatCities :: [City] -> String
 formatCities [] = ""
 formatCities (city:rest) = formatCity city ++ "\n" ++ formatCities rest
+
+
+
+
 
 --iv
 
@@ -152,65 +156,61 @@ closestCityToName north east minPop cities = printf "The closest city to %d,%d w
 demo :: Int -> IO ()
 demo 1 = print (cityNames testData) -- output the names of all the cities
 demo 2 = print (getPopAtYearsAgo "Berlin" 1 testData) -- output the population of Berlin 1 year ago
-demo 3 = putStrLn (formatCities testData) -- output the data as a string
-demo 4 = putStrLn (formatCities (addPopulationData [1200,3200,3600,1800,9500,6800,11100,4300,2000,1800] testData))
-demo 5 = putStrLn (formatCities (sortCitiesByName (addCity "Stockholm" 59 18 [1657, 1633, 1608, 1583] testData)))
+demo 3 = do
+  printf "%-10s %-10s %-10s %10s %10s\n" "Name" "North" "East" "This year" "Last year"
+  putStrLn (formatCities testData) -- output the data as a string
+demo 4 = do
+  printf "%-10s %-10s %-10s %10s %10s\n" "Name" "North" "East" "This year" "Last year"
+  putStrLn (formatCities (addPopulationData [1200,3200,3600,1800,9500,6800,11100,4300,2000,1800] testData))
+demo 5 = do
+  printf "%-10s %-10s %-10s %10s %10s\n" "Name" "North" "East" "This year" "Last year"
+  putStrLn (formatCities (sortCitiesByName (addCity "Stockholm" 59 18 [1657, 1633, 1608, 1583] testData)))
 demo 6 = print (getPopGrowth "Athens" testData)
+demo 7 = putStrLn (closestCityToName 45 8 4000 testData)
 demo _ = print "Invalid argument"
---todo add headings to formatter
---todo make demos interactive, look at 9.hs
-
---
--- Screen Utilities (use these to do the population map)
---
-
-type ScreenPosition = (Int,Int)
-
--- Clears the screen
-clearScreen :: IO ()
-clearScreen = putStr "\ESC[2J"
-
--- Moves to a position on the screen
-goTo :: ScreenPosition -> IO ()
-goTo (x, y) = putStr ("\ESC[" ++ show y ++ ";" ++ show x ++ "H")
-
--- Writes a string at a position on the screen
-writeAt :: ScreenPosition -> String -> IO ()
-writeAt position text = do
-    goTo position
-    putStr text
- 
-
---
--- Your population map code goes here
---
-
 
 
 --
 -- Your user interface (and loading/saving) code goes here
 --
 
-{-
-demo 1 = -- output the names of all the cities
-demo 2 = -- output the population of "Berlin" 1 year ago (i.e. last year)
-demo 3 = putStrLn (citiesToString testData)
-demo 4 = -- output the data (as for (iii)) after it has been updated with the
-         -- following new population figures (the first is for Amsterdam, etc.)
-         -- [1200,3200,3600,1800,9500,6800,11100,4300,2000,1800]
-demo 5 = -- show the data (as for (iii)) after adding "Stockholm" (59N, 18E)
-         -- with population figures [1657, 1633, 1608, 1583]
-demo 6 = -- output a list of annual growth figures for "Athens"
-demo 7 = -- output the nearest city to location (45N, 8E) with
-         -- a population above 4m people
-demo 8 = -- output the population map
--}
+readPopulationData :: String -> [Double]
+readPopulationData line = map read (words line)
+
+
+lineToWordsList :: String -> [String]
+lineToWordsList line = words line
+
+readCity :: [String] -> City
+readCity (name:north:east:popList) = City name (CityCoordinates north east) readablePopList
+  where readablePopList = readPopulationData popList
+
+
+readCities :: [String] -> [City]
+readCities [] = []
+readCities (line:rest) = readCity splitLine : readCities rest
+  where splitLine = lineToWordsList line
+
+
 
 
 main :: IO ()
 main = do
+
+
+  contents <- readFile "cities.txt"
+  let linesOfFile = lines contents
+  print linesOfFile
+
+
+
   putStrLn "Select one of the following options:"
   putStrLn "Enter a number 1-8 to execute the corresponding demo"
+  putStrLn "1. The list of all city names"
+  putStrLn "2. Return the population of a city at a given amount of years ago"
+  putStrLn "3. Return the data as a formatted string"
+
+
   putStrLn "Press any other key to exit"
   option <- getLine
   case option of
