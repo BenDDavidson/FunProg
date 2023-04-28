@@ -72,7 +72,7 @@ getPopAtYearsAgo name yearsAgo cities =
     popList = getPopList city
     pop = popList !! yearsAgo
 
---iii printf "
+--iii
 
 formatCity :: City -> String
 formatCity (City name (CityCoordinates north east) popList) =
@@ -104,7 +104,7 @@ addPopulationData (pop:restOfpop) (city:restOfCities) =
 addCity :: CityName -> North -> East -> CityPopulationList -> [City] -> [City]
 addCity name north east popList cities = City name (CityCoordinates north east) popList : cities
 
--- USAGE testDataWithStockholm = addCity "Stockholm" 59 18 [1657, 1633, 1608, 1583] testData
+
 
 
 sortCitiesByName :: [City] -> [City]
@@ -209,41 +209,4 @@ main = do
   print linesOfFile
 
 
-
-  putStrLn "Select one of the following options:"
-  putStrLn "Enter a number 1-8 to execute the corresponding demo"
-  putStrLn "1. The list of all city names"
-  putStrLn "2. Return the population of a city at a given amount of years ago"
-  putStrLn "3. Return the data as a formatted string"
-
-
-  putStrLn "Press any other key to exit"
-  option <- getLine
-  case option of
-    "1" -> do
-      putStrLn "The list of all city names:"
-      demo 1
-      main
-    "2" -> do
-      putStrLn "The population of Berlin 1 year ago:"
-      main
-    "3" -> do
-      putStrLn "The data as a string:"
-      main
-    "4" -> do
-      putStrLn "The data after it has been updated:"
-      main
-    "5" -> do
-      putStrLn "The data after Stockholm has been added:"
-      main
-    "6" -> do
-      putStrLn "The annual growth figures for Athens:"
-      main
-    "7" -> do
-      putStrLn "The nearest city to location (45N, 8E) with a population above 4m people:"
-      main
-    "8" -> do
-      putStrLn "The population map:"
-      main
-    _ -> return ()
 
