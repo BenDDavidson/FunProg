@@ -10,26 +10,30 @@ import Text.Printf
 -- Types (define City type here)
 --
 
+type CityName = String
+type North = Int
+type East = Int
+type CityPopulationList = [Int]
 
-data City = City
-  { cityName :: String
-  , cityCoordinates :: (Int, Int)
-  , cityPopulationList :: [Int]
-  } deriving (Show, Eq)
+data CityCoordinates = CityCoordinates North East
+  deriving (Show)
+
+data City = City CityName CityCoordinates CityPopulationList
+  deriving (Show)
 
 
 testData :: [City]
 testData =
-  [ City "Amsterdam" (52, 5) [1158, 1149, 1140, 1132]
-  , City "Athens" (38, 24) [3153, 3153, 3154, 3156]
-  , City "Berlin" (53, 13) [3567, 3562, 3557, 3552]
-  , City "Bucharest" (44, 26) [1794, 1803, 1812, 1821]
-  , City "London" (52, 0) [9426, 9304, 9177, 9046]
-  , City "Madrid" (40, 4) [6669, 6618, 6559, 6497]
-  , City "Paris" (49, 2) [11079, 11017, 10958, 10901]
-  , City "Rome" (42, 13) [4278, 4257, 4234, 4210]
-  , City "Vienna" (48, 16) [1945, 1930, 1915, 1901]
-  , City "Warsaw" (52, 21) [1790, 1783, 1776, 1768]
+  [ City "Amsterdam" (CityCoordinates 52 5) [1158, 1149, 1140, 1132]
+  , City "Athens" (CityCoordinates 38 24) [3153, 3153, 3154, 3156]
+  , City "Berlin" (CityCoordinates 53 13) [3567, 3562, 3557, 3552]
+  , City "Bucharest" (CityCoordinates 44 26) [1794, 1803, 1812, 1821]
+  , City "London" (CityCoordinates 52 0) [9426, 9304, 9177, 9046]
+  , City "Madrid" (CityCoordinates 40 4) [6669, 6618, 6559, 6497]
+  , City "Paris" (CityCoordinates 49 2) [11079, 11017, 10958, 10901]
+  , City "Rome" (CityCoordinates 42 13) [4278, 4257, 4234, 4210]
+  , City "Vienna" (CityCoordinates 48 16) [1945, 1930, 1915, 1901]
+  , City "Warsaw" (CityCoordinates 52 21) [1790, 1783, 1776, 1768]
   ]
 
 
@@ -37,19 +41,27 @@ testData =
 --  Your functional code goes here
 --
 
-cityNames :: [City] -> [String]
-cityNames cities = map cityName cities
+cityNames :: [City] -> [CityName]
+cityNames [] = []
+cityNames (City name _ _ : cities) = name : cityNames cities
 
 
-getCityByName :: String -> [City] -> Maybe City
-getCityByName _ [] = Nothing
-getCityByName name (city:rest) =
-  if name == cityName city
+getCityName :: City -> CityName
+getCityName (City cityName _ _) = cityName
+
+findCityByName :: String -> [City] -> Maybe City
+findCityByName _ [] = Nothing
+findCityByName name (city:rest) =
+  if name == getCityName city
     then Just city
-    else getCityByName name rest
+    else findCityByName name rest
 
-getPopList :: City -> [cityPopulationList]
-getPopList city = cityPopulationList city
+
+getPopList :: City -> [Int]
+getPopList (City _ _ popList) = popList
+
+
+
 
 
 
